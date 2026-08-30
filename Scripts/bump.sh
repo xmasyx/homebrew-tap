@@ -36,8 +36,9 @@ bump_one() {
     current="$(sed -nE 's|^ *version "([^"]+)".*|\1|p' "$cask")"
     [[ -n "$repo" && -n "$url_tpl" && -n "$current" ]] || die "$cask: cannot read homepage/url/version"
 
-    local tag latest
-    tag="$(api "repos/$repo/releases/latest" | sed -nE 's|^ *"tag_name": *"([^"]+)".*|\1|p' | head -1)"
+    local json tag latest
+    json="$(api "repos/$repo/releases/latest")" || die "$repo: GitHub API unreachable or no release"
+    tag="$(sed -nE 's|^ *"tag_name": *"([^"]+)".*|\1|p' <<< "$json" | head -1)"
     [[ -n "$tag" ]] || die "$repo: no latest release on GitHub"
     latest="${tag#v}"
 
