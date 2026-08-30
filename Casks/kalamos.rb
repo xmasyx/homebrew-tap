@@ -15,7 +15,7 @@ cask "kalamos" do
   # Signed with the project's own certificate, not notarized: install with
   #   brew install --cask --no-quarantine xmasyx/tap/kalamos
   # or right-click → Open the first time.
-  depends_on macos: ">= :sonoma"
+  depends_on macos: :sonoma
   depends_on arch: :arm64
 
   app "Kalamos.app"

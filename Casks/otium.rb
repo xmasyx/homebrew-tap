@@ -15,7 +15,7 @@ cask "otium" do
   # Signed with the project's own certificate, not notarized: install with
   #   brew install --cask --no-quarantine xmasyx/tap/otium
   # or right-click → Open the first time.
-  depends_on macos: ">= :sequoia"
+  depends_on macos: :sequoia
   depends_on arch: :arm64
 
   app "Otium.app"
