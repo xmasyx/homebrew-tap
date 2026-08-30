@@ -1,6 +1,6 @@
 cask "kalamos" do
-  version "1.5.0"
-  sha256 "9174d92e9065bd235f6ca7f95b041412ef0862fbc2b7cccbbdd2c0f9fdce5f1e"
+  version "1.6.0"
+  sha256 "c53b3c81ad69e9f8fc1c6a121746b357897a67cf1490d6178e6d84a76464a5ce"
 
   url "https://github.com/xmasyx/kalamos/releases/download/v#{version}/Kalamos.zip"
   name "Kalamos"
