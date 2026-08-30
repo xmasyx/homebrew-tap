@@ -13,8 +13,8 @@ cask "nosleep" do
   end
 
   # Signed with the project's own certificate, not notarized: install with
-  #   brew install --cask --no-quarantine xmasyx/tap/nosleep
-  # or right-click → Open the first time.
+  #   brew install --cask xmasyx/tap/nosleep
+  # then, once: xattr -dr com.apple.quarantine /Applications/NoSleep.app (not notarized)
   depends_on macos: :sequoia
   depends_on arch: :arm64
 

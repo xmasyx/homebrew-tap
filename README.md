@@ -2,18 +2,27 @@
 
 Homebrew casks for the apps published at [github.com/xmasyx](https://github.com/xmasyx).
 All of them are native macOS apps for Apple Silicon, signed with the project's own certificate
-and not notarized, which is why the install line carries `--no-quarantine`.
+and not notarized by Apple.
 
 ```sh
-brew install --cask --no-quarantine xmasyx/tap/nosleep    # keeps the Mac awake until the work is done
-brew install --cask --no-quarantine xmasyx/tap/kalamos    # local dictation, nothing leaves the Mac
-brew install --cask --no-quarantine xmasyx/tap/otium      # locks the screen until you do an exercise
+brew install --cask xmasyx/tap/nosleep    # keeps the Mac awake until the work is done
+brew install --cask xmasyx/tap/kalamos    # local dictation, nothing leaves the Mac
+brew install --cask xmasyx/tap/otium      # locks the screen until you do an exercise
 ```
+
+Because the apps are not notarized, macOS refuses to open a fresh download until you clear the
+quarantine flag once (System Settings → Privacy & Security → *Open Anyway* does the same):
+
+```sh
+xattr -dr com.apple.quarantine /Applications/<App>.app
+```
+
+You do it once: the in-app updater clears the flag on every new copy it installs.
 
 Already installed the app from a zip or the `install.sh` of its repo? Take it over with brew once:
 
 ```sh
-brew install --cask --no-quarantine --force xmasyx/tap/<app>
+brew install --cask --force xmasyx/tap/<app>
 ```
 
 ## Updating
@@ -22,7 +31,7 @@ Each app has a **Check for updates** button in its own panel: it runs `brew upgr
 relaunches. From the terminal it is the usual:
 
 ```sh
-brew upgrade --cask --no-quarantine xmasyx/tap/<app>
+brew upgrade --cask xmasyx/tap/<app>
 ```
 
 ## How this tap stays current
