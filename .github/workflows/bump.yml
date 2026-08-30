@@ -1,0 +1,49 @@
+name: Bump casks
+
+# Every six hours, and on demand, look at the latest GitHub release of each app and rewrite the
+# cask when it moved. The commit is made by the workflow with the repository's own token: no
+# personal secret, nothing to rotate. A release becomes `brew upgrade`-able within six hours, or
+# right away when the run is started by hand from the Actions tab.
+on:
+  schedule:
+    - cron: "17 */6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bump
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Bump every cask
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash Scripts/bump.sh --all
+
+      # The audit runs on the rewritten files BEFORE they are committed: a cask that does not
+      # pass never reaches main, which is the whole point of a tap that updates itself.
+      - name: Audit what changed
+        run: |
+          if git diff --quiet -- Casks; then
+            echo "nothing changed"
+            exit 0
+          fi
+          brew tap xmasyx/tap "$PWD"
+          for f in $(git diff --name-only -- Casks); do
+            brew audit --cask --strict "xmasyx/tap/$(basename "$f" .rb)"
+          done
+
+      - name: Commit and push
+        run: |
+          if git diff --quiet -- Casks; then exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Bump: $(git diff --name-only -- Casks | xargs -n1 basename | sed 's/\.rb$//' | paste -sd, -)" -- Casks
+          git push
