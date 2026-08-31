@@ -1,6 +1,6 @@
 cask "nosleep" do
-  version "1.3.0"
-  sha256 "a792b96b66bd77c9fd7bc5d2aa85d6be59b887e256766d3f24a73fabf2efad9d"
+  version "1.3.1"
+  sha256 "e6ae743b9e48cfdeaeaf7b7c625bfd07de4239c6d85d8109abf4a1da6c737b31"
 
   url "https://github.com/xmasyx/nosleep/releases/download/v#{version}/NoSleep-#{version}.zip"
   name "NoSleep"
