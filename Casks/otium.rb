@@ -1,6 +1,6 @@
 cask "otium" do
-  version "1.2.1"
-  sha256 "f60a55416410015690022b2c924b10b4186f2e00fda6394ef45e56b162a919a8"
+  version "1.3.0"
+  sha256 "a8c2b97ede28c18d59079b17b5c8c28a32d4b927b7394a27ae61da0b8b701f9f"
 
   url "https://github.com/xmasyx/otium/releases/download/v#{version}/Otium.zip"
   name "Otium"
