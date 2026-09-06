@@ -42,24 +42,40 @@ bump_one() {
     [[ -n "$tag" ]] || die "$repo: no latest release on GitHub"
     latest="${tag#v}"
 
-    if [[ "$latest" == "$current" ]]; then
-        echo "$token: already at $current"
-        return 0
-    fi
-
-    local url tmp sha
+    # The asset is fetched even when the version already matches. Stopping at
+    # "already at X" left the checksum unverified, and a cask whose sha256 was
+    # never computed from a real download fails at install time on somebody
+    # else's Mac — which is precisely what this script exists to prevent (found
+    # 2026-09-06, adding the limbo cask: the placeholder sha survived a bump
+    # that reported success).
+    local url tmp sha current_sha
     url="${url_tpl//\#\{version\}/$latest}"
     tmp="$(mktemp)"
     trap 'rm -f "$tmp"' RETURN
     curl -fsSL -o "$tmp" "$url" || die "$token: cannot download $url"
     sha="$(shasum -a 256 "$tmp" | cut -d' ' -f1)"
+    current_sha="$(sed -nE 's|^ *sha256 "([0-9a-f]{64})".*|\1|p' "$cask")"
+
+    if [[ "$latest" == "$current" && "$sha" == "$current_sha" ]]; then
+        echo "$token: already at $current, checksum matches"
+        return 0
+    fi
+    if [[ "$latest" == "$current" ]]; then
+        # Same tag, different bytes: either the asset was replaced or the cask
+        # was written by hand. Either way the file on GitHub wins.
+        echo "$token: still $current, but the checksum was wrong — rewriting"
+    fi
 
     # Two exact-line rewrites, nothing else in the file moves.
     sed -i '' -E "s|^( *version )\"$current\"|\1\"$latest\"|" "$cask"
     sed -i '' -E "s|^( *sha256 )\"[0-9a-f]{64}\"|\1\"$sha\"|" "$cask"
     grep -q "version \"$latest\"" "$cask" || die "$token: version rewrite failed"
     grep -q "sha256 \"$sha\"" "$cask" || die "$token: sha256 rewrite failed"
-    echo "$token: $current → $latest ($sha)"
+    if [[ "$latest" == "$current" ]]; then
+        echo "$token: $current, checksum fixed ($sha)"
+    else
+        echo "$token: $current → $latest ($sha)"
+    fi
 }
 
 if [[ "${1:-}" == "--all" ]]; then

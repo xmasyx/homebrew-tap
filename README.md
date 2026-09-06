@@ -8,6 +8,8 @@ and not notarized by Apple.
 brew install --cask xmasyx/tap/nosleep    # keeps the Mac awake until the work is done
 brew install --cask xmasyx/tap/kalamos    # local dictation, nothing leaves the Mac
 brew install --cask xmasyx/tap/otium      # locks the screen until you do an exercise
+brew install --cask xmasyx/tap/t4a        # GPU-drawn terminal for agent sessions
+brew install --cask xmasyx/tap/limbo      # clipboard, shelf and converter in the notch
 ```
 
 Because the apps are not notarized, macOS refuses to open a fresh download until you clear the
