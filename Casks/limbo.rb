@@ -1,8 +1,8 @@
 cask "limbo" do
   # `Scripts/bump.sh limbo` rewrites these two lines from the latest GitHub
   # release, checksum computed from the downloaded asset.
-  version "0.6.0"
-  sha256 "a4b9e506a67158076753cd73ff8a1909fd48af1bd6def339ee49d8a5be153897"
+  version "0.6.1"
+  sha256 "62ada43075a25c646b24d6609a5e98aa924393a081120c627e2d65257bb13b5e"
 
   url "https://github.com/xmasyx/limbo/releases/download/v#{version}/Limbo.zip"
   name "Limbo"
