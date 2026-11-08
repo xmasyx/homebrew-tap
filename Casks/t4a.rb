@@ -15,6 +15,7 @@ cask "t4a" do
   end
 
   # Signed with the project's own certificate, not notarized: install with
+  #   brew trust xmasyx/tap   (once per Mac: Homebrew loads a third-party tap only after you trust it)
   #   brew install --cask xmasyx/tap/t4a
   # then, once: xattr -dr com.apple.quarantine /Applications/T4A.app (not notarized)
   # Later updates go through the app's own "Check for updates" button, which

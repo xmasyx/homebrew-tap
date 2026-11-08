@@ -15,6 +15,7 @@ cask "limbo" do
   end
 
   # Signed with the project's own certificate, not notarized: install with
+  #   brew trust xmasyx/tap   (once per Mac: Homebrew loads a third-party tap only after you trust it)
   #   brew install --cask xmasyx/tap/limbo
   # then, once: xattr -dr com.apple.quarantine /Applications/Limbo.app
   # Later updates go through the app's own "Verifica aggiornamenti" button in

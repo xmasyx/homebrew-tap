@@ -13,6 +13,7 @@ cask "kalamos" do
   end
 
   # Signed with the project's own certificate, not notarized: install with
+  #   brew trust xmasyx/tap   (once per Mac: Homebrew loads a third-party tap only after you trust it)
   #   brew install --cask xmasyx/tap/kalamos
   # then, once: xattr -dr com.apple.quarantine /Applications/Kalamos.app (not notarized)
   depends_on macos: :sonoma
@@ -24,6 +25,6 @@ cask "kalamos" do
   # `brew zap` is the one command meant to take them away.
   zap trash: [
     "~/Library/Application Support/Kalamos",
-    "~/Library/Preferences/app.kalamos.mac.plist",
+    "~/Library/Preferences/com.kalamos.app.plist",
   ]
 end
